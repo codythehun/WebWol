@@ -14,4 +14,5 @@ It's a single user app, and it can only manage a single machine right now.
   * ip_addr: the ip address of the machine you wan't to manage
   * mac_addr: the mac address of the machine you wan't to manage
 5. Run server.py
-6. Optionally, set it up to start automatically on your router or other machine. I set it up on my NAS.
+6. The page is accessible from http://<host_ip>:port/wakey
+7. Optionally, set it up to start automatically on your router or other machine. I set it up on my NAS.
