@@ -1,5 +1,5 @@
 # WebWol
-A simple but secure webpage to remotely turn on your computer. It's written in python and uses the flask framework, and the wakeonlan package.
+A simple but secure webpage to remotely turn on your computer. It's written in python and uses the flask framework, and the wakeonlan package. I used a flask example layout, forgot which one (sorry).
 It's a single user app, and it can only manage a single machine right now.
 
 ## Installation instructions
