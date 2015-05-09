@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Discover</h2>
+{% if error %}<p class="error"><strong>Error:</strong> {{ error }}{% endif %}
+<table>
+<tr>
+<th>Host Name</th><th>Mac Address</th><th>IP Address</th><th>Up</th><th>Operations</th>
+</tr>
+{% for hostname, mac_addr, ip_addr in hosts %}
+<td>{{ hostname }}</td><td>{{ mac_addr }}</td><td>{{ ip_addr }}</td><td><div id="status_dn"/></td>
+<td>
+<img id="icon" hint="Wake up" src="{{ url_for('static', filename='alarm-clock-icon.png') }}"/>
+<img id="icon" hint="Forget host" src="{{ url_for('static', filename='delete.png') }}"/>
+</td>
+</tr>
+{% endfor %}
+</table>
+<!--form action="{{ url_for('wakey') }}" method="post">
+<dl>
+<dd><input type="submit" name="action" value="WakeyWakey">
+<dd><input type="submit" name="action" value="Uthere">
+</dl>
+</form-->
+{% endblock %}

@@ -3,12 +3,21 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 from wakeonlan import wol
 import os
 import config
+import network_utils as nu
 
 app = Flask(__name__)
 
 app.config.update(dict(USERNAME=config.username, PASSWORD=config.password),
 SECRET_KEY=config.secret_key)
 
+@app.route("/discover", methods=['GET',' POST'])
+def discover():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
+    hosts = nu.scan_subnet()
+    filtered_hosts = [(hostname, mac, ip) for (hostname, mac, ip) in hosts if hostname]
+
+    return render_template('discover.html', error=None, hosts=filtered_hosts)
 
 @app.route("/wakey", methods=['GET', 'POST'])
 def wakey():
@@ -48,4 +57,4 @@ def logout():
    	return redirect(url_for('wakey'))	
 
 if __name__ == "__main__":
-	app.run('0.0.0.0', port=config.port)
+	app.run('0.0.0.0', port=config.port, debug=True)
