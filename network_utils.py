@@ -1,0 +1,18 @@
+from scapy.all import *
+import socket
+
+def scan_subnet(subnet_address='192.168.1.*'):
+    answered_packets, unanswered_packets = arping(subnet_address)
+    result = []
+    for sent,received in answered_packets:
+        mac = received.hwsrc
+        ip = received.psrc
+        hostname = None
+        try:
+            hostname, aliases, ips = socket.gethostbyaddr(ip)
+        except socket.herror:
+            hostname = None
+        result.append((hostname, mac, ip))
+    return result
+            
+            

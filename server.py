@@ -9,6 +9,7 @@ app = Flask(__name__)
 app.config.update(dict(USERNAME=config.username, PASSWORD=config.password),
 SECRET_KEY=config.secret_key)
 
+
 @app.route("/wakey", methods=['GET', 'POST'])
 def wakey():
 	if not session.get('logged_in'):
