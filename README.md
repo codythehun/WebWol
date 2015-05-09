@@ -13,6 +13,7 @@ It's a single user app, and it can only manage a single machine right now.
   * port: the webpage will use this port instead of standard http, for additional security (choose something above 1024 and below 65536)
   * ip_addr: the ip address of the machine you wan't to manage
   * mac_addr: the mac address of the machine you wan't to manage
+  * db_file: file path to store database
 5. Run server.py
 6. The page is accessible from http://host_ip:port/wakey
 7. Optionally, set it up to start automatically on your router or other machine. I set it up on my NAS.

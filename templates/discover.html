@@ -6,19 +6,35 @@
 <tr>
 <th>Host Name</th><th>Mac Address</th><th>IP Address</th><th>Up</th><th>Operations</th>
 </tr>
-{% for hostname, mac_addr, ip_addr in hosts %}
-<td>{{ hostname }}</td><td>{{ mac_addr }}</td><td>{{ ip_addr }}</td><td><div id="status_dn"/></td>
+{% for hostname, mac_addr, ip_addr, status in hosts %}
+<td>{{ hostname }}</td><td>{{ mac_addr }}</td><td>{{ ip_addr }}</td>
 <td>
-<img id="icon" hint="Wake up" src="{{ url_for('static', filename='alarm-clock-icon.png') }}"/>
+{% if status %}
+<div id="status_up"/>
+{% else %}
+<div id="status_dn"/>
+{% endif %}
+</td>
+<td>
+<a href="{{ url_for('discover', wake=mac_addr) }}" title="Wake up">
+<img id="icon"  src="{{ url_for('static', filename='alarm-clock-icon.png') }}"/>
+</a>
+{% if not status %}
+<a href="{{ url_for('discover', delete=mac_addr) }}" title="Forget host">
 <img id="icon" hint="Forget host" src="{{ url_for('static', filename='delete.png') }}"/>
+</a>
+{% endif %}
 </td>
 </tr>
 {% endfor %}
+<tr>
+<form action="{{ url_for('discover') }}" method="post">
+<td><input type="text" name="name"/></td>
+<td><input type="text" name="mac"/></td>
+<td><input type="text" name="ip"/></td>
+<td/>
+<td><input type="image" src="{{ url_for('static', filename='add.png') }}" id="icon"/></td>
+</form>
+</tr>
 </table>
-<!--form action="{{ url_for('wakey') }}" method="post">
-<dl>
-<dd><input type="submit" name="action" value="WakeyWakey">
-<dd><input type="submit" name="action" value="Uthere">
-</dl>
-</form-->
 {% endblock %}
