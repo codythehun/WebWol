@@ -15,9 +15,8 @@ SECRET_KEY=config.secret_key)
 db = shelve.open(config.db_file, writeback=True) #TODO: this ain't thread or process safe! switch to ZODB
 
 def discover_hosts():
-    hosts = nu.scan_subnet()
-    filtered_hosts = [(hostname, mac, ip) for (hostname, mac, ip) in hosts if hostname]
-    return filtered_hosts
+    return [(hostname or 'Unknown', mac, ip) for (hostname, mac, ip) in nu.scan_subnet()]
+    
 
 def discover_and_persist_hosts():
     up_hosts = discover_hosts()
@@ -26,7 +25,10 @@ def discover_and_persist_hosts():
     for name, mac, ip in up_hosts:
         if mac not in db:
             db[mac] = (name, ip)
-        result.append((name, mac, ip, True))
+        else:
+            saved_name, saved_ip = db[mac]
+            db[mac] = (saved_name, ip) # refresh ip 
+        result.append((db[mac][0], mac, ip, True))
         up_macs.add(mac)
     for mac,(name, ip) in db.iteritems():
         if mac not in up_macs:
